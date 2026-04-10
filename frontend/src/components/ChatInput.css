@@ -1,0 +1,405 @@
+.input-area {
+  padding: 0 20px 24px;
+  flex-shrink: 0;
+  max-width: 820px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.file-input-hidden {
+  position: absolute;
+  width: 0;
+  height: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* ── Multi-attachment strip ── */
+.attachments-strip {
+  display: flex;
+  align-items: flex-end;
+  gap: 10px;
+  margin-bottom: 10px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+}
+
+.attachments-strip::-webkit-scrollbar {
+  height: 4px;
+}
+.attachments-strip::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 2px;
+}
+
+.attachment-card {
+  position: relative;
+  width: 80px;
+  height: 80px;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid var(--border-light);
+  flex-shrink: 0;
+  background: #f1f3f4;
+  transition: box-shadow 0.12s;
+}
+
+.attachment-card:hover {
+  box-shadow: var(--shadow-sm);
+}
+
+.attachment-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.attachment-card--file {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #e8eef7;
+}
+
+.attachment-doc-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  color: var(--blue);
+}
+
+.attachment-doc-icon .material-symbols-rounded {
+  font-size: 32px;
+}
+
+.attachment-name {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 2px 6px;
+  font-size: 9px;
+  color: #fff;
+  background: rgba(0, 0, 0, 0.55);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: center;
+}
+
+.attachment-remove {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 20px;
+  height: 20px;
+  border: none;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.55);
+  color: #fff;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  opacity: 0;
+  transition: opacity 0.12s;
+}
+
+.attachment-card:hover .attachment-remove {
+  opacity: 1;
+}
+
+.attachment-remove .material-symbols-rounded {
+  font-size: 14px;
+}
+
+.attachments-clear-all {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 20px;
+  background: transparent;
+  color: var(--text-secondary);
+  font-size: 11px;
+  font-family: inherit;
+  font-weight: 500;
+  cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: background 0.12s, color 0.12s;
+}
+
+.attachments-clear-all:hover {
+  background: #fce8e6;
+  color: var(--error);
+}
+
+.attachments-clear-all .material-symbols-rounded {
+  font-size: 16px;
+}
+
+/* Legacy single preview (keep for backward compat) */
+.image-preview-strip {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+}
+
+.image-preview-card {
+  position: relative;
+  width: 72px;
+  height: 72px;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid var(--border-light);
+  flex-shrink: 0;
+  background: #f1f3f4;
+}
+
+.image-preview-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.image-preview-card--file {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #e8eef7;
+}
+
+.image-preview-remove {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 22px;
+  height: 22px;
+  border: none;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.55);
+  color: #fff;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+
+.image-preview-remove .material-symbols-rounded {
+  font-size: 14px;
+}
+
+.image-preview-hint {
+  font-size: 12px;
+  color: #9aa0a6;
+}
+
+.input-box {
+  display: flex;
+  align-items: flex-end;
+  background: var(--bg);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius);
+  padding: 6px 10px 6px 20px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.input-box:focus-within {
+  border-color: var(--blue);
+  box-shadow: 0 0 0 2px rgba(26, 115, 232, 0.15);
+}
+
+/* Textarea + animated placeholder overlay */
+.textarea-wrap {
+  flex: 1;
+  position: relative;
+  min-width: 0;
+}
+
+.textarea-wrap textarea {
+  width: 100%;
+  border: none;
+  outline: none;
+  resize: none;
+  font-family: inherit;
+  font-size: 15px;
+  color: var(--text);
+  background: transparent;
+  line-height: 1.5;
+  max-height: 160px;
+  padding: 10px 0;
+}
+
+.textarea-wrap textarea::placeholder {
+  color: #9aa0a6;
+}
+
+/* Animated placeholder — sits on top of the empty textarea */
+.animated-placeholder {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: 10px 0;
+  font-size: 15px;
+  line-height: 1.5;
+  color: #9aa0a6;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+/* Blinking cursor */
+.cursor-blink {
+  display: inline-block;
+  width: 2px;
+  height: 1.15em;
+  background: #9aa0a6;
+  margin-left: 1px;
+  border-radius: 1px;
+  animation: blink 1s step-end infinite;
+  vertical-align: text-bottom;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.input-actions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+  align-self: flex-end;
+  padding-bottom: 4px;
+}
+
+.attach-btn {
+  width: 38px;
+  height: 38px;
+  border: none;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--text-secondary);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: background 0.12s, color 0.12s;
+}
+
+.attach-btn:hover:not(:disabled) {
+  background: rgba(0, 0, 0, 0.06);
+  color: var(--blue);
+}
+
+.attach-btn:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.attach-btn .material-symbols-rounded {
+  font-size: 22px;
+}
+
+/* Mic button */
+.mic-btn {
+  width: 38px;
+  height: 38px;
+  border: none;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--text-secondary);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: background 0.12s, color 0.12s;
+  position: relative;
+}
+
+.mic-btn:hover:not(:disabled) {
+  background: rgba(0, 0, 0, 0.06);
+  color: var(--blue);
+}
+
+.mic-btn:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.mic-btn .material-symbols-rounded {
+  font-size: 22px;
+}
+
+.mic-btn.listening {
+  color: #d93025;
+  background: #fce8e6;
+}
+
+.mic-btn.listening::after {
+  content: "";
+  position: absolute;
+  inset: -3px;
+  border-radius: 50%;
+  border: 2px solid #d93025;
+  animation: mic-pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes mic-pulse {
+  0%, 100% { opacity: 0.4; transform: scale(1); }
+  50% { opacity: 0; transform: scale(1.25); }
+}
+
+.send-btn {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: none;
+  background: var(--border);
+  color: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: background 0.15s, transform 0.1s;
+}
+
+.send-btn.active {
+  background: var(--blue);
+}
+
+.send-btn.active:hover {
+  background: var(--blue-hover);
+  transform: scale(1.05);
+}
+
+.send-btn:disabled {
+  cursor: default;
+}
+
+.send-btn .material-symbols-rounded {
+  font-size: 20px;
+}
+
+.footer-text {
+  text-align: center;
+  font-size: 11px;
+  color: #9aa0a6;
+  margin-top: 10px;
+  letter-spacing: 0.1px;
+}

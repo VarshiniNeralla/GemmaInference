@@ -1,0 +1,39 @@
+/* ── Root Layout ── */
+.layout {
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* ── Main Panel ── */
+.main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  background: var(--surface);
+}
+
+/* ── Chat Area ── */
+.chat-area {
+  flex: 1;
+  overflow-y: auto;
+  padding: 24px 20px;
+  scroll-behavior: smooth;
+}
+
+.chat-area::-webkit-scrollbar {
+  width: 6px;
+}
+.chat-area::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 3px;
+}
+
+/* Center messages in wider viewports */
+.chat-area > .message,
+.chat-area > .welcome {
+  max-width: 780px;
+  margin-left: auto;
+  margin-right: auto;
+}
