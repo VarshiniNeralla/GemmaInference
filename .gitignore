@@ -20,6 +20,7 @@ pip-wheel-metadata/
 venv/
 ENV/
 env/
+__pypackages__/
 
 # Type checkers / linters / tests
 .mypy_cache/
@@ -27,29 +28,42 @@ env/
 .pytest_cache/
 .pytype/
 .hypothesis/
+.tox/
 htmlcov/
 .coverage
 .coverage.*
 coverage.xml
 *.cover
+.dmypy.json
+dmypy.json
 
 # ── Node / frontend (Vite) ─────────────────────────────────────────
 node_modules/
 frontend/node_modules/
 frontend/dist/
+frontend/.vite/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 *.tsbuildinfo
+.eslintcache
+# Vite occasionally writes timestamped temp files next to vite.config.*
+vite.config.js.timestamp-*.mjs
+vite.config.ts.timestamp-*.mjs
 
 # ── Environment & secrets ─────────────────────────────────────────
 .env
 .env.*
 !.env.example
+.envrc
+.direnv/
 *.pem
 *.key
 *.p12
+credentials.json
+secrets.json
+*.secret
 
 # ── Local runtime data (app persists users here) ───────────────────
 data/users.json
@@ -63,10 +77,29 @@ logs/
 Thumbs.db
 ehthumbs.db
 Desktop.ini
+$RECYCLE.BIN/
+*.stackdump
 *.swp
 *~
 .idea/
 .vscode/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# ── Docker (machine-specific overrides) ────────────────────────────
+docker-compose.override.yml
+
+# ── Local caches (project root) ────────────────────────────────────
+.cache/
+
+# ── Jupyter ────────────────────────────────────────────────────────
+.ipynb_checkpoints/
+
+# ── Merge / editor backups ─────────────────────────────────────────
+*.orig
+*.bak
 
 # ── Local tooling / AI assistants (machine-specific) ───────────────
 .claude/

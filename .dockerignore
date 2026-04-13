@@ -1,0 +1,10 @@
+.venv/
+.git/
+.claude/
+.env
+frontend/node_modules/
+frontend/dist/
+__pycache__/
+*.pyc
+data/
+uv.lock

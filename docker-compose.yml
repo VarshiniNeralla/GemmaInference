@@ -1,0 +1,95 @@
+services:
+  # ── GPU: vLLM serving Gemma 4 31B ──────────────────────────────────────────
+  vllm:
+    build:
+      context: .
+      dockerfile: docker/vllm-gemma4.Dockerfile
+    container_name: gemma-vllm-compose
+    ports:
+      - "8000:8000"
+    volumes:
+      - ~/.cache/huggingface:/root/.cache/huggingface
+    environment:
+      - HUGGING_FACE_HUB_TOKEN=${HF_TOKEN}
+    command: >
+      --model RedHatAI/gemma-4-31B-it-NVFP4
+      --served-model-name gemma4-31b
+      --max-model-len 32768
+      --gpu-memory-utilization 0.9
+      --max-num-seqs 16
+      --trust-remote-code
+    ipc: host
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "python3 -c \"import urllib.request; urllib.request.urlopen('http://localhost:8000/health')\"",
+        ]
+      interval: 30s
+      timeout: 10s
+      retries: 20
+      start_period: 120s
+    restart: unless-stopped
+    networks:
+      - gemma-net
+
+  # ── FastAPI backend ────────────────────────────────────────────────────────
+  backend:
+    build:
+      context: .
+      dockerfile: docker/backend.Dockerfile
+    container_name: gemma-backend
+    ports:
+      - "9000:9000"
+    volumes:
+      - ./app:/app/app
+      - ./data:/app/data
+    env_file: .env
+    environment:
+      - LLM_BASE_URL=http://vllm:8000
+    depends_on:
+      vllm:
+        condition: service_healthy
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "python3 -c \"import urllib.request; urllib.request.urlopen('http://localhost:9000/health')\"",
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    restart: unless-stopped
+    networks:
+      - gemma-net
+
+  # ── React frontend (Vite dev server) ───────────────────────────────────────
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: ../docker/frontend.Dockerfile
+    container_name: gemma-frontend
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend/src:/app/src
+      - ./frontend/index.html:/app/index.html
+    environment:
+      - VITE_API_PROXY=http://backend:9000
+    depends_on:
+      backend:
+        condition: service_healthy
+    networks:
+      - gemma-net
+
+networks:
+  gemma-net:
+    driver: bridge

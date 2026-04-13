@@ -9,5 +9,7 @@ FROM vllm/vllm-openai:nightly
 # Install Transformers from GitHub main when releases lag behind new architectures.
 # If this ever conflicts with vLLM, pin a recent transformers release instead, e.g.:
 #   RUN pip install --no-cache-dir "transformers>=4.52.0"
-RUN pip install --no-cache-dir --upgrade pip \
+RUN apt-get update && apt-get install -y --no-install-recommends git \
+    && rm -rf /var/lib/apt/lists/* \
+    && pip install --no-cache-dir --upgrade pip \
     && pip install --no-cache-dir git+https://github.com/huggingface/transformers.git
