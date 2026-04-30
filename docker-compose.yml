@@ -78,7 +78,7 @@ services:
       dockerfile: ../docker/frontend.Dockerfile
     container_name: gemma-frontend
     ports:
-      - "3000:3000"
+      - "3699:3000"
     volumes:
       - ./frontend/src:/app/src
       - ./frontend/index.html:/app/index.html
